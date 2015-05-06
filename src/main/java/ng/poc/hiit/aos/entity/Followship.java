@@ -9,6 +9,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
+
 @Entity
 public class Followship {
 	@Id

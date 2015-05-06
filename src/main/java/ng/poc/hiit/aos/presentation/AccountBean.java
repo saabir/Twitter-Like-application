@@ -47,6 +47,11 @@ public class AccountBean extends AbstractViewBean {
 		this.account = account;
 	}
 
+	/**
+	 * Save a new account
+	 * 
+	 * @return {@link String} as navigation
+	 */
 	public String saveAccount() {
 		accountEJB.saveAccount(account);
 		return "success";
@@ -75,7 +80,6 @@ public class AccountBean extends AbstractViewBean {
 			} else {
 				addMessage("Password was NOT modified!",
 						FacesMessage.SEVERITY_WARN);
-
 			}
 		}
 	}
@@ -101,6 +105,13 @@ public class AccountBean extends AbstractViewBean {
 		}
 	}
 
+	/**
+	 * Helper method to check if password is correct
+	 * 
+	 * @param paswd1
+	 * @param passwd2
+	 * @return {@link Boolean}
+	 */
 	private boolean isPasswordValid(String paswd1, String passwd2) {
 		boolean isValid = (account.getPassword().isEmpty() || tmppassword
 				.isEmpty());

@@ -6,6 +6,12 @@ import ng.poc.hiit.aos.entity.Tweet;
 
 import org.primefaces.model.SortOrder;
 
+/**
+ * Personalized sorter that implements a comparator
+ * 
+ * @author aos
+ *
+ */
 public class LazySorter implements Comparator<Tweet> {
 	private String sortField;
 

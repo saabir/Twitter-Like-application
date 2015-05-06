@@ -16,15 +16,29 @@ public abstract class AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -480066712148273502L;
 
+	/**
+	 * Helper method to return faces instance
+	 * 
+	 * @return
+	 */
 	protected FacesContext getCurrentFacesContext() {
 		return FacesContext.getCurrentInstance();
 	}
 
+	/**
+	 * Helper method to add messages to faces context
+	 * 
+	 * @param summary
+	 * @param info
+	 */
 	public void addMessage(String summary, Severity info) {
 		FacesMessage message = new FacesMessage(info, summary, null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
+	/**
+	 * Helper method to navigate to home page after correct login
+	 */
 	protected void navigateToLoginOk() {
 		HttpServletRequest request = (HttpServletRequest) getCurrentFacesContext()
 				.getExternalContext().getRequest();
@@ -38,11 +52,19 @@ public abstract class AbstractViewBean implements Serializable {
 		}
 	}
 
+	/**
+	 * Helper method to return current faces request
+	 * 
+	 * @return {@link HttpServletRequest}ß
+	 */
 	protected HttpServletRequest getRequest() {
 		return (HttpServletRequest) FacesContext.getCurrentInstance()
 				.getExternalContext().getRequest();
 	}
 
+	/**
+	 * Helper method to navigate to loginpage
+	 */
 	protected void navigateToLoginPage() {
 		HttpServletRequest request = (HttpServletRequest) getCurrentFacesContext()
 				.getExternalContext().getRequest();
