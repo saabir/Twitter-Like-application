@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Logged in as #{loginBean.userName}</title>
+</h:head>
+
+<ui:composition template="/templates/_decorator.xhtml">
+	<ui:define name="title">Welcome</ui:define>
+	<ui:define name="heading">Welcome #{loginBean.userName}, you have a successful Login.</ui:define>
+	<ui:define name="body">
+
+		<p:layoutUnit position="west" resizable="false" size="100"
+			minSize="50" maxSize="200">
+			<h:panelGrid columns="2" cellpadding="10">
+				<h:form id="menuButtonFormId">
+					<p:growl id="messages" showDetail="false" />
+
+					<!-- TWEET PANEL -->
+					<p:inputText id="keyword"
+						style="width:700px;height:60px;margin-right:20px;"
+						value="#{menuBean.newTweetMessage}" required="true"
+						label="Keyword" />
+					<p:watermark for="keyword" value="Enter your tweet..."
+						id="watermark" />
+					<p:commandButton value="Tweet"
+						style="width:250px;height:60px;margin-right:20px;font-size:250% !important;"
+						actionListener="#{menuBean.postTweet}"
+						oncomplete="PrimeFaces.showWatermarks();" update="messages @form">
+						<f:param name="accountparam" value="#{loginBean.userId}" />
+					</p:commandButton>
+
+					<!-- MENU -->
+					<p:menu overlay="true" trigger="dynaButton" my="left top"
+						at="left bottom">
+						<p:submenu label="User">
+							<p:menuitem value="Logout" actionListener="#{menuBean.logout}"
+								update="messages" icon="ui-icon-arrowrefresh-1-w"
+								immediate="true" />
+						</p:submenu>
+					</p:menu>
+					<p:commandButton id="dynaButton" value="Menu" type="button"
+						style="width:250px;height:60px;font-size: 250% !important;" />
+				</h:form>
+			</h:panelGrid>
+
+		</p:layoutUnit>
+		<!-- CENTER -->
+		<p:layoutUnit position="center">
+			<p:accordionPanel dynamic="true" cache="false">
+				<p:tab title="#{loginBean.userName}'s Profile">
+					<h:outputText value="Welcome back #{loginBean.userLogin} !" />
+					<br />
+					<p:graphicImage name="demo/images/godfather/godfather1.jpg">
+						<h:form enctype="multipart/form-data">
+							<p:fileUpload value="#{menuBean.file}" mode="simple"
+								action="#{menuBean.handleFileUpload}"
+								allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"
+								auto="true" />
+							<p:separator />
+							<h:commandButton value="Dummy Action"
+								action="#{menuBean.handleFileUpload}"></h:commandButton>
+						</h:form>
+					</p:graphicImage>
+
+					<br />
+					<h:panelGrid columns="2" cellpadding="10">
+
+						<!-- USERNAME -->
+						<label>#{i18n.username}</label>
+						<p:outputLabel value="#{loginBean.userLogin}" />
+
+						<!-- Names -->
+						<label>Names</label>
+						<p:outputLabel value="#{loginBean.names}" />
+
+						<!-- followersCount/Following -->
+						<label>Followers/Following</label>
+						<p:outputLabel
+							value="#{loginBean.followersCount}/#{loginBean.followingCount}" />
+
+						<!-- change password -->
+						<p:commandButton value="Change password" type="button"
+							onclick="PF('dlgChangePwd').show();" />
+
+					</h:panelGrid>
+					<p:dialog header="Change your login password here"
+						widgetVar="dlgChangePwd" showEffect="explode"
+						style="height:70% !important; width:70% !important; top:15% !important; left: 15% !important;">
+						<h:form id="changePwdForm">
+							<h:panelGrid columns="2" cellpadding="10">
+								<!-- PASSWORD FIRST -->
+								<p:password id="lblChgNewPassword"
+									value="#{accountBean.account.password}" feedback="true" />
+								<h:message for="lblChgNewPassword" class="errorMsg" />
+								<p:watermark for="lblChgNewPassword"
+									value="Enter new password..." id="watermarkPwdChange" />
+
+								<!-- PASSWORD CONFIRM -->
+								<p:password id="lblChgNewPasswordConfirm"
+									value="#{accountBean.tmppassword}" feedback="true" />
+								<h:message for="lblChgNewPasswordConfirm" class="errorMsg" />
+								<p:watermark for="lblChgNewPasswordConfirm"
+									value="Confirm password..." id="watermarkPwdConfirm" />
+
+								<p:commandButton value="Change" type="submit"
+									actionListener="#{accountBean.doChangePassword}"
+									oncomplete="dlgChangePwd.hide()" update="@form" />
+
+								<p:commandButton styleClass="ui-confirmdialog-no"
+									value="#{i18n.cancel}" onclick="dlgChangePwd.hide()"
+									immediate="true" />
+
+							</h:panelGrid>
+						</h:form>
+					</p:dialog>
+				</p:tab>
+
+				<p:tab title="#{loginBean.userName}'s Tweets">
+					<h:form id="yourTweetsFormId">
+						<p:growl id="growl" showDetail="true" />
+
+						<p:dataTable id="personalTweetList" var="tweets"
+							value="#{menuBean.tweetList}" paginator="true" rows="5"
+							rowKey="#{tweets.id}">
+
+							<p:column headerText="Tweet">
+								<h:outputText value="#{tweets.message}" />
+							</p:column>
+
+							<p:column headerText="Created" sortBy="#{tweets.createdAt}">
+								<h:outputText value="#{tweets.createdAt}" />
+							</p:column>
+
+							<!-- DELETE TWEET -->
+							<p:column headerText="Actions">
+								<h:commandLink value="Delete"
+									actionListener="#{menuBean.deleteAction(tweets)}" />
+							</p:column>
+							<p:column style="width:32px">
+								<p:rowEditor />
+							</p:column>
+						</p:dataTable>
+
+					</h:form>
+				</p:tab>
+				<p:tab title="Other users tweets">
+					<h:form id="allAccountTweetsFormId">
+						<p:dataTable id="allAccountTweetList" var="allTweets"
+							value="#{menuBean.tweetListAll}" paginator="true" rows="5">
+							<p:column headerText="Tweet">
+								<h:outputText value="#{allTweets.message}" />
+							</p:column>
+							<p:column headerText="User Id" sortBy="#{allTweets.accountId}">
+								<h:outputText value="#{allTweets.accountId}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:tab>
+			</p:accordionPanel>
+		</p:layoutUnit>
+	</ui:define>
+</ui:composition>
+</html>
