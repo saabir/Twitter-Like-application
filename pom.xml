@@ -104,6 +104,14 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.1</version>
 		</dependency>
+
+		<!-- testing using EJB3Unit -->
+		<dependency>
+			<groupId>com.bm</groupId>
+			<artifactId>ejb3unit</artifactId>
+			<version>2.0.0-RC-1</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -197,6 +205,15 @@
 			<name>Prime Technology Maven Repository</name>
 			<url>http://repository.primefaces.org</url>
 			<layout>default</layout>
+		</repository>
+		<!-- test respo -->
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>ejb3unit</id>
+			<name>ejb3unit repository</name>
+			<url>http://ejb3unit.sourceforge.net/maven2</url>
 		</repository>
 	</repositories>
 </project>
