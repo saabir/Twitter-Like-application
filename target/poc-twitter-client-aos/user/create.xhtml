@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/_decorator.xhtml">
+	<ui:define name="title">#{i18n.createTitle}</ui:define>
+	<ui:define name="heading">#{i18n.createHeading}</ui:define>
+	<ui:define name="body">
+		<h:form id="newAccountForm">
+			<p:panel id="createPnl" header="#{i18n.newAccount}" toggleable="true"
+				closable="false" toggleSpeed="500" onCloseUpdate="growl"
+				closeSpeed="2000" onToggleUpdate="growl" widgetVar="panel">
+				<h:panelGrid columns="3" cellpadding="10">
+					<!-- USERNAME -->
+					<label>#{i18n.username}</label>
+					<h:inputText label="Username" id="lblTitle"
+						value="#{accountBean.account.username}" required="true" />
+					<h:message for="lblTitle" class="errorMsg" />
+
+					<!-- FIRSTNAME -->
+					<label>#{i18n.firstname}</label>
+					<h:inputText label="First Name" id="lblFirstName"
+						value="#{accountBean.account.firstName}" required="true" />
+					<h:message for="lblFirstName" class="errorMsg" />
+
+					<!-- LASTNAME -->
+					<label>#{i18n.lastname}</label>
+					<h:inputText label="Last Name" id="lblLastname"
+						value="#{accountBean.account.lastName}" required="true" />
+					<h:message for="lblLastname" class="errorMsg" />
+
+					<!-- PASSWORD FIRST -->
+					<label>#{i18n.password}</label>
+					<p:password id="lblNewPassword"
+						value="#{accountBean.account.password}" feedback="true" />
+					<h:message for="lblNewPassword" class="errorMsg" />
+
+					<!-- PASSWORD CONFIRM -->
+					<label>#{i18n.password} confirm</label>
+					<p:password id="lblNewPasswordConfirm"
+						value="#{accountBean.tmppassword}" feedback="true" />
+					<h:message for="lblNewPasswordConfirm" class="errorMsg" />
+
+					<h:commandButton id="cancelCreation" title="#{i18n.cancel}"
+						value="#{i18n.cancel}" action="cancel" immediate="true" />
+
+					<h:commandButton id="saveNewAccount" title="#{i18n.create}"
+						value="#{i18n.create}" actionListener="#{accountBean.doNewAccount}"
+						type="submit" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

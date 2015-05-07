@@ -7,7 +7,12 @@
 	<version>1.0</version>
 	<packaging>war</packaging>
 	<name>poc-twitter-client-aos</name>
-
+	<developers>
+		<developer>
+			<name>Stephan Asemota</name>
+			<organization>private</organization>
+		</developer>
+	</developers>
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

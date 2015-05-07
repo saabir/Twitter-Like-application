@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<ui:composition template="/templates/_decorator.xhtml">
+	<ui:define name="title">
+		<h:outputText value="#{i18n.listTitle}" />
+	</ui:define>
+	<ui:define name="heading">
+		<h:outputText value="#{i18n.listHeading}" />
+	</ui:define>
+	<ui:define name="body">
+		<h:form>
+			<h:commandButton title="#{i18n.newAccount}"
+				value="#{i18n.newAccount}" action="create" />
+			<h:commandButton title="#{i18n.login}" value="#{i18n.login}"
+				action="login" />
+		</h:form>
+		<br />
+		<hr />
+		<br />
+		<p:panel
+			header="#{accountBean.getAllUserAccount().size()} #{i18n.amountEntries}"
+			toggleable="true" closable="true" toggleSpeed="500">
+			<ui:repeat value="#{accountBean.getAllUserAccount()}" var="entry">
+				<h:panelGrid columns="2" cellpadding="10">
+
+					<!-- username LABEL -->
+					<h:outputText value="#{i18n.username}: #{entry.username}" />
+
+					<!-- first name -->
+					<h:outputText value="#{i18n.firstname}: #{entry.firstName}" />
+
+					<!-- last name -->
+					<h:outputText value="#{i18n.lastname}: #{entry.lastName}" />
+
+					<!-- tweet count -->
+					<h:form id="commandLink">
+						<h:commandLink title="#{i18n.viewtweets}"
+							value="#{i18n.viewtweets}"
+							action="#{linkUserTweetsBean.allTweetsForUserId}">
+							<f:param name="userid" value="#{entry.id}" />
+						</h:commandLink>
+					</h:form>
+				</h:panelGrid>
+				<hr />
+			</ui:repeat>
+		</p:panel>
+
+	</ui:define>
+</ui:composition>
+</html>
