@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ejb.embeddable.EJBContainer;
+import javax.naming.Context;
 import javax.naming.NamingException;
 
 import ng.poc.hiit.aos.business.ejb.AccountEJB;
 
-import org.junit.Before;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -29,28 +29,14 @@ import org.testng.annotations.Test;
 public class AccountEntityTest {
 	private AccountEJB accountEJB;
 	private static EJBContainer container;
+	private static Context ctx;
 
 	@BeforeClass
-	public static void setUpClass() throws Exception {
-		container = createContainer();
-	}
-
-	protected static EJBContainer createContainer() {
-		Map<String, Object> properties = new HashMap<String, Object>();
+	public static void setUp() throws Exception {
+		Map properties = new HashMap();
 		properties.put(EJBContainer.MODULES, new File("target/classes"));
-		properties.put(
-				"org.glassfish.ejb.embedded.glassfish.installation.root",
-				"/opt/glassfish");
-		return EJBContainer.createEJBContainer(properties);
-	}
-
-	@Before
-	public void setUp() throws Exception {
-		// Retrieve a reference to the session bean using a portable global JNDI
-		// name
-		accountEJB = (AccountEJB) container
-				.getContext()
-				.lookup("java:global/classes/AccountEJB");
+		container = EJBContainer.createEJBContainer(properties);
+		ctx = container.getContext();
 	}
 
 	@AfterClass
@@ -61,6 +47,8 @@ public class AccountEntityTest {
 
 	@Test
 	public void createNewAccount() throws NamingException {
+		accountEJB = (AccountEJB) ctx
+				.lookup("java:global/classes/AccountEJB!ng.poc.hiit.aos.business.ejb.AccountEJB");
 		// Do your tests
 		assertNotNull(accountEJB);
 		Account sample = new Account();

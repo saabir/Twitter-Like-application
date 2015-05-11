@@ -1,12 +1,18 @@
 package ng.poc.hiit.aos.business.ejb;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import ng.poc.hiit.aos.entity.Account;
 
@@ -27,7 +33,24 @@ public class AccountEJB {
 	 * @return persisted {@link Account} object
 	 */
 	public Account saveAccount(Account account) {
-		em.persist(account);
+		// debug error in testsuit
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<Account>> constraintViolations = validator
+				.validate(account);
+
+		if (constraintViolations.size() > 0) {
+			Iterator<ConstraintViolation<Account>> iterator = constraintViolations
+					.iterator();
+			while (iterator.hasNext()) {
+				ConstraintViolation<Account> cv = iterator.next();
+				System.err.println(cv.getRootBeanClass().getName() + "."
+						+ cv.getPropertyPath() + " " + cv.getMessage());
+			}
+		} else {
+			em.persist(account);
+		}
+
 		return account;
 	}
 
