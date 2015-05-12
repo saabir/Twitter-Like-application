@@ -82,3 +82,19 @@ java.runtime.version=1.7.0_71-b14
 user.dir=/Users/aos/Documents/swDevelopment/dev/mvnProjects/poc-twitter-client-aos
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
+Tue May 12 17:35:29 CEST 2015 : Security manager installed using the Basic server security policy.
+Tue May 12 17:35:30 CEST 2015 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
+Tue May 12 17:35:30 CEST 2015 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Tue May 12 17:36:09 CEST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-014d-48c4-3e8b-000010dae77f 
+on database directory /Users/aos/Documents/swDevelopment/dev/mvnProjects/poc-twitter-client-aos/sun-appserv-samples with class loader sun.misc.Launcher$AppClassLoader@2e5f8245 
+Loaded from file:/opt/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_71-b14
+user.dir=/Users/aos/Documents/swDevelopment/dev/mvnProjects/poc-twitter-client-aos
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.10.3
+derby.system.home=/Users/aos/Documents/swDevelopment/dev/mvnProjects/poc-twitter-client-aos
+Database Class Loader started - derby.database.classpath=''
