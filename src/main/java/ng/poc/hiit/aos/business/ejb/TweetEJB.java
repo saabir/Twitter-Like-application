@@ -34,14 +34,14 @@ public class TweetEJB {
 	}
 
 	/**
-	 * Retreive all {@link Tweet} for user id
+	 * Retrieve all {@link Tweet} for user id
 	 * 
 	 * @param accountId
 	 * @return {@link List} of {@link Tweet}
 	 */
 	public List<Tweet> getAllTweetsForAccountId(Long accountId) {
 		final Query query = em
-				.createQuery("SELECT b FROM Tweet b  WHERE b.accountId=:accountId");
+				.createQuery("SELECT b FROM Tweet b  WHERE b.account.id=:accountId");
 		query.setParameter("accountId", accountId);
 		List<Tweet> entries = query.getResultList();
 
@@ -49,7 +49,7 @@ public class TweetEJB {
 	}
 
 	/**
-	 * Retreive all user {@link Tweet}
+	 * Retrieve all user {@link Tweet}
 	 * 
 	 * @return {@link List}
 	 */

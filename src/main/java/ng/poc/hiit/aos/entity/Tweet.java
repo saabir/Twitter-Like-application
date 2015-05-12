@@ -3,8 +3,10 @@ package ng.poc.hiit.aos.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,9 +28,6 @@ public class Tweet {
 	private Long id;
 
 	@NotNull
-	private Long accountId;
-
-	@NotNull
 	@Size(min = 2, max = 100)
 	private String message;
 
@@ -36,9 +35,24 @@ public class Tweet {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Account account;
+
 	@PrePersist
 	private void onCreate() {
 		createdAt = new Date();
+	}
+
+	public Tweet() {
+		// default
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public Long getId() {
@@ -47,14 +61,6 @@ public class Tweet {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
 	}
 
 	public String getMessage() {

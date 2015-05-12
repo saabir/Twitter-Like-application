@@ -1,6 +1,8 @@
 package ng.poc.hiit.aos.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -42,10 +45,17 @@ public class Account implements Serializable {
 	@Size(min = 2, max = 30)
 	private String lastName;
 
+	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+	private Collection<Tweet> actualTweets;
+
 	private String password;
 	private int tweetsCount;
 	private int followerCount;
 	private int followingCount;
+
+	public Account() {
+		actualTweets = new ArrayList<Tweet>();
+	}
 
 	/**
 	 * @param id
@@ -60,6 +70,14 @@ public class Account implements Serializable {
 	 */
 	public String getUsername() {
 		return username;
+	}
+
+	public Collection<Tweet> getActualTweets() {
+		return actualTweets;
+	}
+
+	public void addTweet(Tweet actualTweet) {
+		actualTweets.add(actualTweet);
 	}
 
 	/**

@@ -84,7 +84,10 @@ public class MenuBean extends AbstractViewBean {
 	public String deleteAction(Tweet tweet) {
 		tweetEJB.deleteTweet(tweet);
 		tweetList.remove(tweet);
-		updateNumeberOfTweets(tweet.getAccountId(), 1);
+		if (tweet.getAccount() != null) {
+			updateNumeberOfTweets(tweet.getAccount().getId(), 1);
+		}
+
 		addMessage("Tweet entitled:" + tweet.getMessage() + "was deleted.",
 				FacesMessage.SEVERITY_INFO);
 		return null;
@@ -134,13 +137,18 @@ public class MenuBean extends AbstractViewBean {
 			Long accountid = Long.valueOf(FacesContext.getCurrentInstance()
 					.getExternalContext().getRequestParameterMap()
 					.get("accountparam"));
+			// Retrieve account
+			Account userAccount = accountEJB.getAccountById(accountid);
 			Tweet t = new Tweet();
 			t.setMessage(newTweetMessage);
-			t.setAccountId(Long.valueOf(accountid));
+			t.setAccount(userAccount);
 			tweetEJB.saveTweet(t);
 
 			// update # of tweets details
 			updateNumeberOfTweets(accountid, 0);
+			// update account
+			userAccount.addTweet(t);
+			accountEJB.updateAccount(userAccount);
 			addMessage("Your tweet has being posted!",
 					FacesMessage.SEVERITY_INFO);
 		} else {
